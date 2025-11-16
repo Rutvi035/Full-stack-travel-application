@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class LuvoApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(LuvoApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(LuvoApplication.class, args);
+    }
 }
