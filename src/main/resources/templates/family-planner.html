@@ -1,172 +1,336 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luvo – Family Planner</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Family Planner – Luvo</title>
+<style>
+body {
+    margin:0; 
+    font-family: Arial, sans-serif; 
+    background:#c9f0e8;
+}
 
-    <style>
-        /* ---------- BODY ---------- */
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #c9f0e8;
-            overflow-x: hidden;
-        }
+/* --- New Header Styling --- */
+.app-header {
+    background: #c9f0e8; /* Matches body background */
+    padding: 40px 20px 0 20px; /* Top padding, no bottom padding */
+    text-align: center;
+}
+.app-header h1 {
+    font-size: 3em;
+    font-weight: bold;
+    color: #000;
+    margin: 0 0 5px 0;
+}
+.app-header p {
+    font-size: 1.2em;
+    color: #333;
+    margin: 0;
+    padding-bottom: 30px; /* Space below the subtitle */
+}
+/* ------------------------- */
 
-        /* ---------- MAIN ---------- */
-        .main {
-            text-align: center;
-            padding: 40px 20px;
-        }
+.main {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px 20px 20px; 
+    gap: 20px;
+    align-items: flex-start;
+}
+.left-column { flex:2; display: flex; flex-direction: column; gap: 20px; }
+.right-column { flex:1; display: flex; flex-direction: column; }
 
-        .subtitle {
-            color: #333;
-            margin-top: -10px;
-        }
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 25px;
+    box-sizing: border-box;
+    min-height: 200px;
+}
+.card h2 { margin-top: 0; font-size: 22px; text-align:center; }
 
-        /* ---------- GRID ---------- */
-        .grid {
-            margin: 40px auto;
-            max-width: 1200px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-        }
+.create {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-        /* ---------- CARD ---------- */
-        .card {
-            background: white;
-            border-radius: 14px;
-            padding: 35px 25px;
-            text-align: left;
-            box-sizing: border-box;
-            min-height: 220px;
-        }
+.chart {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 40px 0 25px 0;
+}
+.circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 12px solid #c9e4e6;
+    border-top-color: #004f63;
+}
+.total-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    text-align: center;
+}
 
-        .card h2 {
-            margin-top: 0;
-            font-size: 22px;
-        }
+.create form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 70%;
+}
 
-        .status {
-            color: #666;
-            margin-bottom: 20px;
-        }
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+}
 
-        .card input {
-            width: 100%;
-            padding: 12px;
-            margin: 6px 0;
-            border: 1px solid #dcdcdc;
-            border-radius: 6px;
-        }
+.set-btn, .view-btn {
+    background: #0b637b;
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+}
 
-        .view-btn,
-        .set-btn {
-            background: #0b637b;
-            color: white;
-            padding: 10px 24px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+.full-width-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 40px 20px; 
+}
 
-        .set-btn {
-            width: 100%;
-            margin-top: 15px;
-        }
+.trip-card {
+    background: white; 
+    border-radius: 14px; 
+    box-sizing: border-box; 
+    padding: 15px 25px; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top:20px;
+    min-height: auto; 
+}
 
-        /* ---------- GRID PLACEMENT ---------- */
-        .trip1 { grid-column: 1 / 2; grid-row: 1; }
-        .trip2 { grid-column: 2 / 3; grid-row: 1; }
-        .create { 
-            grid-column: 1 / 3; 
-            grid-row: 2; 
-            min-height: 180px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-        }
-        .budget { grid-column: 3 / 4; grid-row: 1 / 3; }
+.trip-info {
+    display: flex;
+    align-items: center;
+    gap: 20px; 
+}
 
-        /* ---------- CREATE NEW PLAN CARD ---------- */
-        .chart {
-            position: relative;
-            width: 120px;
-            height: 120px;
-        }
+.trip-info strong {
+    font-size: 1.1em;
+}
 
-        .circle {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 12px solid #c9e4e6;
-            border-top-color: #004f63;
-        }
+.view-btn {
+    width: auto; 
+    padding: 8px 20px;
+}
 
-        .total-text {
-            position: absolute;
-            top: 38px;
-            left: 34px;
-            font-size: 16px;
-            text-align: center;
-        }
+label {
+    display:inline-block;
+    width:100px;
+}
+.budget input { width: calc(100% - 110px); } 
+.budget div { margin-bottom: 10px; display:flex; align-items:center; }
 
-        /* ---------- RESPONSIVE ---------- */
-        @media (max-width: 980px) {
-            .grid { grid-template-columns: repeat(2, 1fr); }
-            .budget { grid-column: 1 / -1; grid-row: auto; }
-        }
-
-        @media (max-width: 560px) {
-            .grid { grid-template-columns: 1fr; }
-        }
-
-    </style>
+@media(max-width:900px){
+    .main{ flex-direction: column; }
+    .right-column{ width:100%; }
+    .full-width-section{ padding-top: 20px; }
+}
+</style>
 </head>
 <body>
 
-<section class="main">
+<header class="app-header">
     <h1>Family Planner</h1>
-    <p class="subtitle">Track budgets and collaborate with family.</p>
+    <p>Track budgets and collaborate with family.</p>
+</header>
 
-    <div class="grid">
-        <!-- Spring Break Trip -->
-        <div class="card trip1">
-            <h2>Spring Break Trip</h2>
-            <p class="status">Planning</p>
-            <button class="view-btn">View</button>
-        </div>
-
-        <!-- Summer Vacation -->
-        <div class="card trip2">
-            <h2>Summer Vacation</h2>
-            <p class="status">Locked</p>
-            <button class="view-btn">View</button>
-        </div>
-
-        <!-- Create New Plan -->
-        <div class="card create">
+<section class="main">
+    <div class="left-column">
+        <div class="card create" id="createCard">
             <h2>Create New Plan</h2>
             <div class="chart">
                 <div class="circle"></div>
-                <p class="total-text">Total<br>$0</p>
+                <p class="total-text" id="totalBudget">Total<br>$0.00</p>
             </div>
+            <form id="addTripForm">
+                <input type="text" name="tripName" placeholder="Trip Name" required>
+                <input type="number" name="budget" placeholder="Budget" step="0.01">
+                <button class="set-btn" type="submit">Add Trip</button>
+            </form>
         </div>
 
-        <!-- Budget Overview -->
-        <div class="card budget">
+        </div>
+
+    <div class="right-column">
+        <div class="card budget" id="budgetCard">
             <h2>Budget Overview</h2>
-            <input type="text" placeholder="Flights">
-            <input type="text" placeholder="Lodging">
-            <input type="text" placeholder="Food">
-            <input type="text" placeholder="Activities">
-            <button class="set-btn">Set Budget</button>
+            <form id="budgetForm">
+                <input type="hidden" name="index">
+                <div><label>Flights:</label><input type="number" name="flights" value="0"></div>
+                <div><label>Lodging:</label><input type="number" name="lodging" value="0"></div>
+                <div><label>Food:</label><input type="number" name="food" value="0"></div>
+                <div><label>Activities:</label><input type="number" name="activities" value="0"></div>
+                <button class="set-btn" type="submit">Set Budget</button>
+            </form>
         </div>
     </div>
 </section>
+
+<div class="full-width-section">
+    <div id="tripList"></div>
+</div>
+
+
+<script>
+const apiBase = 'http://localhost:8080/family-planner/api';
+
+// Fetch and render trips
+async function loadTrips() {
+    try {
+        const res = await fetch(apiBase);
+        const trips = await res.json();
+        renderTrips(trips);
+    } catch (err) {
+        console.error('Error loading trips:', err);
+    }
+}
+
+// Render trips in the page
+function renderTrips(trips) {
+    const tripList = document.getElementById('tripList');
+    tripList.innerHTML = '';
+
+    trips.forEach((trip, index) => {
+        const card = document.createElement('div');
+        card.className = 'card trip-card';
+        card.innerHTML = `
+            <div class="trip-info">
+                <strong>${trip.tripName}</strong>
+                <span>| Status: ${trip.status}</span>
+                <span>| Budget: $${trip.budget.toFixed(2)}</span>
+            </div>
+            <div class="button-group">
+                <button class="view-btn">View</button>
+                <button class="view-btn delete-btn">Delete</button>
+            </div>
+        `;
+        tripList.appendChild(card);
+
+        // View button
+        card.querySelector('.view-btn').addEventListener('click', () => {
+            document.querySelector('#budgetForm input[name="index"]').value = index;
+            document.querySelector('#budgetForm input[name="flights"]').value = trip.flights;
+            document.querySelector('#budgetForm input[name="lodging"]').value = trip.lodging;
+            document.querySelector('#budgetForm input[name="food"]').value = trip.food;
+            document.querySelector('#budgetForm input[name="activities"]').value = trip.activities;
+        });
+
+        // Delete button
+        card.querySelector('.delete-btn').addEventListener('click', async () => {
+            try {
+                await fetch(`${apiBase}/${index}`, { method: 'DELETE' });
+                loadTrips();
+            } catch (err) {
+                console.error('Error deleting trip:', err);
+            }
+        });
+    });
+
+
+
+    // Update total budget
+    const total = trips.reduce((sum, t) => sum + (t.budget || 0), 0);
+    document.getElementById('totalBudget').innerHTML = `Total<br>$${total.toFixed(2)}`;
+
+    // Adjust card heights
+    const createCard = document.getElementById('createCard');
+    const budgetCard = document.getElementById('budgetCard');
+    if (window.innerWidth > 900) {
+        createCard.style.height = budgetCard.style.height = 'auto';
+        const maxHeight = Math.max(createCard.offsetHeight, budgetCard.offsetHeight);
+        createCard.style.height = budgetCard.style.height = maxHeight + 'px';
+    } else {
+        createCard.style.height = budgetCard.style.height = 'auto';
+    }
+}
+
+// Add new trip
+document.querySelector('#addTripForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const form = e.target;
+    const tripName = form.tripName.value;
+    const budget = parseFloat(form.budget.value) || 0;
+
+    if (tripName) {
+        try {
+            await fetch(apiBase, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    tripName,
+                    status: 'Planning',
+                    budget,
+                    flights: 0,
+                    lodging: 0,
+                    food: 0,
+                    activities: 0
+                })
+            });
+            form.reset();
+            loadTrips();
+        } catch (err) {
+            console.error('Error adding trip:', err);
+        }
+    }
+});
+
+// Update budget
+document.querySelector('#budgetForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const form = e.target;
+    const index = form.index.value;
+
+    try {
+        await fetch(`${apiBase}/${index}/budget`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                flights: parseFloat(form.flights.value) || 0,
+                lodging: parseFloat(form.lodging.value) || 0,
+                food: parseFloat(form.food.value) || 0,
+                activities: parseFloat(form.activities.value) || 0
+            })
+        });
+        alert('Budget updated!');
+        loadTrips();
+    } catch (err) {
+        console.error('Error updating budget:', err);
+    }
+});
+
+// Initial load
+loadTrips();
+
+// Adjust card height on resize
+window.addEventListener('resize', loadTrips);
+</script>
+
+
+
 
 </body>
 </html>
