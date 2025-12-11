@@ -1,6 +1,8 @@
 package com.luvo.service;
 
 import com.luvo.model.LocalBusiness;
+import com.luvo.repository.ILocalBusinessRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -8,21 +10,25 @@ import java.util.*;
 @Service
 public class LocalBusinessService {
 
-    private final Map<String, LocalBusiness> store = new HashMap<>();
+    private final ILocalBusinessRepository localBusinessRepository;
+
+    public LocalBusinessService(ILocalBusinessRepository localBusinessRepository) {
+        this.localBusinessRepository = localBusinessRepository;
+    }
 
     public List<LocalBusiness> findAll() {
-        return new ArrayList<>(store.values());
+        return localBusinessRepository.findAll();
     }
 
     public Optional<LocalBusiness> findById(String id) {
-        return Optional.ofNullable(store.get(id));
+        return localBusinessRepository.findById(id);
     }
 
-    public void save(LocalBusiness business) {
-        store.put(business.getId(), business);
+    public Optional<LocalBusiness> save(LocalBusiness business) {
+        return Optional.of(localBusinessRepository.save(business));
     }
 
     public void delete(String id) {
-        store.remove(id);
+        localBusinessRepository.deleteById(id);
     }
 }
