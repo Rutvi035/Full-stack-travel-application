@@ -62,111 +62,26 @@ public class FamilyPlan {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public double getTotalBudget() {
-        return totalBudget;
-    }
-
-    public void setTotalBudget(double totalBudget) {
-        this.totalBudget = totalBudget;
-    }
-
-    public double getFlights() {
-        return flights;
-    }
-
-    public void setFlights(double flights) {
-        this.flights = normalize(flights);
-    }
-
-    public double getLodging() {
-        return lodging;
-    }
-
-    public void setLodging(double lodging) {
-        this.lodging = normalize(lodging);
-    }
-
-    public double getFood() {
-        return food;
-    }
-
-    public void setFood(double food) {
-        this.food = normalize(food);
-    }
-
-    public double getActivities() {
-        return activities;
-    }
-
-    public void setActivities(double activities) {
-        this.activities = normalize(activities);
-    }
-
-  
-
-    //Returns total spent across all expense categories.
-        public double getTotalSpent() {
-        return flights + lodging + food + activities;
-    }
-
-    //    Returns remaining budget (totalBudget - totalSpent).
-     
-    public double getRemaining() {
-        return totalBudget - getTotalSpent();
-    }
-
-    //Returns true when expenses exceed the allocated total budget.
-    
-    public boolean isOverBudget() {
-        return getTotalSpent() > totalBudget;
-    }
-
-    /**
-     * Add an expense amount to a named category. Valid categories: flights, lodging, food, activities.
-     * If category is unrecognized, no change is applied.
-     */
-    public void addExpense(String category, double amount) {
-        double a = normalize(amount);
-        switch (category == null ? "" : category.trim().toLowerCase()) {
-            case "flights" -> this.flights += a;
-            case "lodging" -> this.lodging += a;
-            case "food" -> this.food += a;
-            case "activities" -> this.activities += a;
-            default -> {
-                // unknown category — ignore (controller/view should validate)
-            }
-        }
+        this.budget = budget;
+        this.flights = 0;
+        this.lodging = 0;
+        this.food = 0;
+        this.activities = 0;
     }
 
     
-      //Replace the expense value for a named category.
-     
-    public void setExpense(String category, double amount) {
-        double a = normalize(amount);
-        switch (category == null ? "" : category.trim().toLowerCase()) {
-            case "flights" -> this.flights = a;
-            case "lodging" -> this.lodging = a;
-            case "food" -> this.food = a;
-            case "activities" -> this.activities = a;
-            default -> {
-            }
-        }
-    }
+    public String getTripName() { return tripName; }
+    public String getStatus() { return status; }
+    public double getBudget() { return budget; }
+    public double getFlights() { return flights; }
+    public double getLodging() { return lodging; }
+    public double getFood() { return food; }
+    public double getActivities() { return activities; }
 
-    private double normalize(double v) {
-        if (Double.isNaN(v) || Double.isInfinite(v) || v < 0) return 0d;
-        return Math.round(v * 100.0) / 100.0; // keep cents precision
-    }
-
-    @Override
-    public String toString() {
-        return "FamilyPlan{" +
-                "id='" + id + '\'' +
-                ", tripName='" + tripName + '\'' +
-                ", totalBudget=" + totalBudget +
-                ", totalSpent=" + getTotalSpent() +
-                '}';
-    }
+    public void setStatus(String status) { this.status = status; }
+    public void setBudget(double budget) { this.budget = budget; }
+    public void setFlights(double flights) { this.flights = flights; }
+    public void setLodging(double lodging) { this.lodging = lodging; }
+    public void setFood(double food) { this.food = food; }
+    public void setActivities(double activities) { this.activities = activities; }
 }

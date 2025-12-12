@@ -11,7 +11,7 @@ body {
     background:#c9f0e8;
 }
 
-/* --- New Header Styling --- */
+
 .app-header {
     background: #c9f0e8; 
     padding: 40px 20px 0 20px;
@@ -29,7 +29,7 @@ body {
     margin: 0;
     padding-bottom: 30px;
 }
-/* ------------------------- */
+
 
 .main {
     display: flex;
@@ -202,7 +202,7 @@ label {
 <script>
 const apiBase = '/family-planner/api';
 
-// Load all trips
+
 async function loadTrips() {
     try {
         const res = await fetch(apiBase);
@@ -213,29 +213,7 @@ async function loadTrips() {
     }
 }
 
-// When the user starts creating a new trip, show zero in the budget circle
-const createForm = document.getElementById('addTripForm');
-if (createForm) {
-    createForm.addEventListener('focusin', () => {
-        const circle = document.getElementById('totalBudget');
-        if (circle) circle.innerHTML = 'Total<br>$0.00';
-    });
-}
 
-// Render the budget circle for a specific plan: show trip name, allocated total, and remaining budget
-function renderBudgetCircle(trip) {
-    const circle = document.getElementById('totalBudget');
-    if (!circle || !trip) return;
-
-    const total = parseFloat(trip.totalBudget || 0);
-    const spent = (parseFloat(trip.flights || 0) + parseFloat(trip.lodging || 0) + parseFloat(trip.food || 0) + parseFloat(trip.activities || 0)) || 0;
-    const remaining = total - spent;
-
-    const name = trip.tripName || 'Trip';
-    circle.innerHTML = `${name}<br>$${total.toFixed(2)}<br><small>Remaining: $${remaining.toFixed(2)}</small>`;
-}
-
-// Render trips on screen
 function renderTrips(trips) {
     const tripList = document.getElementById('tripList');
     tripList.innerHTML = '';
@@ -261,7 +239,7 @@ function renderTrips(trips) {
 
         tripList.appendChild(card);
 
-        // VIEW button — populate form with plan id and values
+        
         card.querySelector('.view-btn').addEventListener('click', () => {
             document.querySelector('#budgetForm input[name="id"]').value = trip.id || '';
             document.querySelector('#budgetForm input[name="allocBudget"]').value = trip.totalBudget || 0;
@@ -274,7 +252,7 @@ function renderTrips(trips) {
             renderBudgetCircle(trip);
         });
 
-        // DELETE button
+        
         card.querySelector('.delete-btn').addEventListener('click', async () => {
             try {
                 await fetch(`${apiBase}/${trip.id}`, { method: 'DELETE' });
@@ -286,10 +264,13 @@ function renderTrips(trips) {
         });
     });
 
-    // keep budget circle at $0.00 unless a trip is selected via View
+   
+    const total = trips.reduce((sum, t) => sum + (t.budget || 0), 0);
+    document.getElementById('totalBudget').innerHTML =
+        `Total<br>$${total.toFixed(2)}`;
 }
 
-// Add new trip
+
 document.querySelector('#addTripForm').addEventListener('submit', async e => {
     e.preventDefault();
     const form = e.target;
@@ -320,7 +301,7 @@ document.querySelector('#addTripForm').addEventListener('submit', async e => {
     }
 });
 
-// Update budget + alerts + status change
+
 document.querySelector('#budgetForm').addEventListener('submit', async e => {
     e.preventDefault();
     const form = e.target;
@@ -353,7 +334,7 @@ document.querySelector('#budgetForm').addEventListener('submit', async e => {
         const updated = await resp.json();
 
         if (totalSpent > tripBudget) {
-            alert("⚠️ Budget Exceeded!");
+            alert(" Budget Exceeded!");
         } else {
             alert("Budget Updated Successfully!");
         }
@@ -367,7 +348,7 @@ document.querySelector('#budgetForm').addEventListener('submit', async e => {
     }
 });
 
-// Initial load
+
 loadTrips();
 </script>
 

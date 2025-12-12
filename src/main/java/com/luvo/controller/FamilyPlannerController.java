@@ -18,7 +18,7 @@ public class FamilyPlannerController {
         this.plannerService = plannerService;
     }
 
-    // Thymeleaf page
+    
     @GetMapping
     public String viewPage(Model model) {
         List<FamilyPlan> plans = plannerService.getPlans();
@@ -28,7 +28,7 @@ public class FamilyPlannerController {
         return "family-planner";
     }
 
-    // REST endpoints
+   
     @RestController
     @RequestMapping("/family-planner/api")
     public class FamilyPlannerRest {
@@ -60,10 +60,13 @@ public class FamilyPlannerController {
             return plannerService.updatePlan(plan);
         }
 
-        //  DELETE endpoint by id
-        @DeleteMapping("/{id}")
-        public void deletePlan(@PathVariable String id) {
-            plannerService.deletePlan(id);
+        
+        @DeleteMapping("/{index}")
+        public void deletePlan(@PathVariable int index) {
+            List<FamilyPlan> plans = plannerService.getPlans();
+            if (index >= 0 && index < plans.size()) {
+                plans.remove(index);
+            }
         }
     }
 }
