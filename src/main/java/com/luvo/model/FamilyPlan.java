@@ -19,7 +19,7 @@ public class FamilyPlan {
         this.activities = 0;
     }
 
-    // Getters & setters
+    
     public String getTripName() { return tripName; }
     public String getStatus() { return status; }
     public double getBudget() { return budget; }
